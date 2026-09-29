@@ -77,6 +77,22 @@ export default function TrangThietBi() {
   const [danhSachCanInQr, datDanhSachCanInQr] = useState<ThietBi[]>([]);
 
   useEffect(() => {
+    const thamSo = new URLSearchParams(window.location.search);
+    const tuKhoa = thamSo.get("tuKhoa")?.trim().slice(0, 200) || "";
+    const trangThai = thamSo.get("trangThai") || "";
+    const boDem = window.setTimeout(() => {
+      if (tuKhoa) {
+        datTuKhoaNhap(tuKhoa);
+        datTuKhoaTimKiem(tuKhoa);
+      }
+      if (DANH_SACH_TRANG_THAI_THIET_BI.includes(trangThai as TrangThaiThietBi)) {
+        datTrangThaiDangLoc(trangThai as TrangThaiThietBi);
+      }
+    }, 0);
+    return () => window.clearTimeout(boDem);
+  }, []);
+
+  useEffect(() => {
     void layDanhSachLoaiThietBi({ trang: 1, gioiHan: 100 })
       .then((ketQua) => datDanhSachLoai(ketQua.danhSach))
       .catch(() => undefined);

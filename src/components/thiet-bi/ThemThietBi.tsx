@@ -232,10 +232,13 @@ export default function ThemThietBi({
               <label htmlFor="gia-mua">Giá mua</label>
               <input
                 id="gia-mua"
-                type="number"
-                min="0"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={duLieu.giaMua ?? ""}
-                onChange={(suKien) => capNhat("giaMua", suKien.target.value)}
+                onChange={(suKien) =>
+                  capNhat("giaMua", suKien.target.value.replace(/\D/g, ""))
+                }
               />
               {loi.giaMua && <span className="loi-truong">{loi.giaMua}</span>}
             </div>

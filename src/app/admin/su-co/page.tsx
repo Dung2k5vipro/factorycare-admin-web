@@ -37,6 +37,24 @@ export default function TrangSuCo() {
   const [thietBiDaChon, datThietBiDaChon] = useState<ThietBi | null>(null);
 
   useEffect(() => {
+    const thamSo = new URLSearchParams(window.location.search);
+    const tuKhoa = thamSo.get("tuKhoa")?.trim().slice(0, 200) || "";
+    const mucDo = thamSo.get("mucDo") || "";
+    const trangThai = thamSo.get("trangThai") || "";
+    const boLocTuUrl: Partial<BoLocSuCo> = {};
+    if (tuKhoa) boLocTuUrl.tuKhoa = tuKhoa;
+    if (mucDo in NHAN_MUC_DO_SU_CO) boLocTuUrl.mucDo = mucDo as MucDoSuCo;
+    if (trangThai in NHAN_TRANG_THAI_SU_CO) boLocTuUrl.trangThai = trangThai as TrangThaiSuCo;
+    const boDem = window.setTimeout(() => {
+      if (tuKhoa) datTuKhoaNhap(tuKhoa);
+      if (Object.keys(boLocTuUrl).length > 0) {
+        datBoLoc((hienTai) => ({ ...hienTai, ...boLocTuUrl, trang: 1 }));
+      }
+    }, 0);
+    return () => window.clearTimeout(boDem);
+  }, []);
+
+  useEffect(() => {
     let dangHoatDong = true;
     layDanhSachSuCo(boLoc)
       .then((ketQua) => {
