@@ -260,10 +260,14 @@ export default function TrangNhaCungCap() {
                 <div className="nhom-truong">
                   <label>Số điện thoại</label>
                   <input
+                    type="tel"
                     value={duLieu.soDienThoai || ""}
                     maxLength={10}
                     inputMode="numeric"
-                    onChange={(e) => capNhat("soDienThoai", e.target.value)}
+                    pattern="[0-9]*"
+                    onChange={(e) =>
+                      capNhat("soDienThoai", e.target.value.replace(/\D/g, ""))
+                    }
                   />
                   {loiForm.soDienThoai && (
                     <span className="loi-truong">{loiForm.soDienThoai}</span>

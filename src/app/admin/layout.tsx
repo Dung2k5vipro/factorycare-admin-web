@@ -29,6 +29,21 @@ const CHUC_NANG_THIET_BI = [
   { duongDan: "/admin/bao-hanh", nhan: "Bảo hành" },
 ];
 
+const DANH_SACH_CHUC_NANG_BAO_TRI = [
+  { duongDan: "/admin/bao-tri/ke-hoach", nhan: "Kế hoạch" },
+  { duongDan: "/admin/bao-tri/phieu", nhan: "Phiếu bảo trì" },
+  { duongDan: "/admin/bao-tri/mau-checklist", nhan: "Mẫu checklist" },
+];
+
+const DANH_SACH_CHUC_NANG_DASHBOARD = [
+  { duongDan: "/admin/dashboard", nhan: "Dashboard" },
+  { duongDan: "/admin/bao-cao", nhan: "Báo cáo" },
+];
+
+function kiemTraTrangDashboardBaoCao(duongDan: string) {
+  return DANH_SACH_CHUC_NANG_DASHBOARD.some((chucNang) => duongDan.startsWith(chucNang.duongDan));
+}
+
 function laTrangThietBi(duongDan: string) {
   return DUONG_DAN_THIET_BI.some((duongDanGoc) =>
     duongDan.startsWith(duongDanGoc),
@@ -36,6 +51,11 @@ function laTrangThietBi(duongDan: string) {
 }
 
 function layTieuDeTrang(duongDan: string) {
+  if (duongDan.startsWith("/admin/dashboard")) return "Dashboard";
+  if (duongDan.startsWith("/admin/bao-cao")) return "Báo cáo & Thống kê";
+  if (duongDan.startsWith("/admin/bao-tri/ke-hoach")) return "Kế hoạch bảo trì";
+  if (duongDan.startsWith("/admin/bao-tri/phieu")) return "Phiếu bảo trì";
+  if (duongDan.startsWith("/admin/bao-tri/mau-checklist")) return "Mẫu checklist";
   if (duongDan.startsWith("/admin/su-co")) return "Sự cố & Sửa chữa";
   const chucNang = CHUC_NANG_THIET_BI.find((muc) =>
     duongDan.startsWith(muc.duongDan),
@@ -51,6 +71,12 @@ export default function BoCucAdmin({ children }: { children: ReactNode }) {
   const [dangKiemTra, datDangKiemTra] = useState(true);
   const [loiKiemTra, datLoiKiemTra] = useState("");
   const [dangMoNhomThietBi, datDangMoNhomThietBi] = useState(false);
+  const [dangMoNhomBaoTri, datDangMoNhomBaoTri] = useState(
+    duongDan.startsWith("/admin/bao-tri"),
+  );
+  const [dangMoNhomDashboard, datDangMoNhomDashboard] = useState(
+    kiemTraTrangDashboardBaoCao(duongDan),
+  );
 
   useEffect(() => {
     let dangHoatDong = true;
@@ -149,6 +175,40 @@ export default function BoCucAdmin({ children }: { children: ReactNode }) {
         <nav className="dieu-huong" aria-label="Điều hướng chính">
           <span className="nhan-dieu-huong">QUẢN TRỊ</span>
 
+          <button
+            className={`muc-dieu-huong nut-nhom-dieu-huong ${
+              kiemTraTrangDashboardBaoCao(duongDan) ? "dang-chon" : ""
+            }`}
+            type="button"
+            aria-expanded={dangMoNhomDashboard}
+            aria-controls="dieu-huong-dashboard"
+            onClick={() => datDangMoNhomDashboard((dangMo) => !dangMo)}
+          >
+            <span aria-hidden="true">◫</span>
+            <span className="ten-nhom-dieu-huong">Dashboard &amp; Báo cáo</span>
+            <span className="mui-ten-nhom" aria-hidden="true">
+              {dangMoNhomDashboard ? "▴" : "▾"}
+            </span>
+          </button>
+
+          {dangMoNhomDashboard && (
+            <div
+              id="dieu-huong-dashboard"
+              className="dieu-huong-con"
+              aria-label="Chức năng Dashboard và báo cáo"
+            >
+              {DANH_SACH_CHUC_NANG_DASHBOARD.map((chucNang) => (
+                <a
+                  key={chucNang.duongDan}
+                  className={duongDan.startsWith(chucNang.duongDan) ? "dang-chon" : ""}
+                  href={chucNang.duongDan}
+                >
+                  {chucNang.nhan}
+                </a>
+              ))}
+            </div>
+          )}
+
           <a
             className={`muc-dieu-huong ${
               duongDan.startsWith("/admin/nguoi-dung") ? "dang-chon" : ""
@@ -202,6 +262,42 @@ export default function BoCucAdmin({ children }: { children: ReactNode }) {
             <span aria-hidden="true">⚠</span>
             Sự cố &amp; Sửa chữa
           </a>
+
+          <button
+            className={`muc-dieu-huong nut-nhom-dieu-huong ${
+              duongDan.startsWith("/admin/bao-tri") ? "dang-chon" : ""
+            }`}
+            type="button"
+            aria-expanded={dangMoNhomBaoTri}
+            aria-controls="dieu-huong-bao-tri"
+            onClick={() => datDangMoNhomBaoTri((dangMo) => !dangMo)}
+          >
+            <span aria-hidden="true">◷</span>
+            <span className="ten-nhom-dieu-huong">Bảo trì</span>
+            <span className="mui-ten-nhom" aria-hidden="true">
+              {dangMoNhomBaoTri ? "▴" : "▾"}
+            </span>
+          </button>
+
+          {dangMoNhomBaoTri && (
+            <div
+              id="dieu-huong-bao-tri"
+              className="dieu-huong-con"
+              aria-label="Chức năng bảo trì"
+            >
+              {DANH_SACH_CHUC_NANG_BAO_TRI.map((chucNang) => (
+                <a
+                  key={chucNang.duongDan}
+                  className={
+                    duongDan.startsWith(chucNang.duongDan) ? "dang-chon" : ""
+                  }
+                  href={chucNang.duongDan}
+                >
+                  {chucNang.nhan}
+                </a>
+              ))}
+            </div>
+          )}
         </nav>
       </aside>
 

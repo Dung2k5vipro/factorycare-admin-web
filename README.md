@@ -27,3 +27,7 @@ npm run dev
 npm run build
 npm run lint
 ```
+
+Khi chay `npm run dev`, giao dien admin mo tai `http://localhost:3001`.
+Backend tiep tuc chay tai `http://localhost:3000`; dia chi API co the cau hinh
+bang bien `NEXT_PUBLIC_API_BASE_URL` (xem `.env.example`).
