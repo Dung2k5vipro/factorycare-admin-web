@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import InMaQr from "@/components/thiet-bi/InMaQr";
 import ThemLoaiThietBi from "@/components/thiet-bi/ThemLoaiThietBi";
 import ThemThietBi from "@/components/thiet-bi/ThemThietBi";
 import {
@@ -70,6 +71,11 @@ export default function TrangThietBi() {
   const [loiChiTiet, datLoiChiTiet] = useState("");
   const [thongBao, datThongBao] = useState("");
 
+  // Chọn hàng loạt & In mã QR
+  const [danhSachChonId, datDanhSachChonId] = useState<number[]>([]);
+  const [dangMoInQr, datDangMoInQr] = useState(false);
+  const [danhSachCanInQr, datDanhSachCanInQr] = useState<ThietBi[]>([]);
+
   useEffect(() => {
     void layDanhSachLoaiThietBi({ trang: 1, gioiHan: 100 })
       .then((ketQua) => datDanhSachLoai(ketQua.danhSach))
@@ -127,6 +133,7 @@ export default function TrangThietBi() {
   function taiLaiDanhSach() {
     datDangTai(true);
     datLoiTaiDuLieu("");
+    datDanhSachChonId([]);
     datLanTaiLai((lanTaiLaiHienTai) => lanTaiLaiHienTai + 1);
   }
 
@@ -166,6 +173,38 @@ export default function TrangThietBi() {
     } catch (loi) {
       datLoiChiTiet(layThongBaoLoi(loi, "Không thể tải QR thiết bị."));
     }
+  }
+
+  function inQrDonLe(tb: ThietBi) {
+    datDanhSachCanInQr([tb]);
+    datDangMoInQr(true);
+  }
+
+  function inQrHangsLoat() {
+    if (danhSachChonId.length === 0) {
+      // Nếu chưa tích chọn máy nào, in toàn bộ máy đang hiển thị
+      datDanhSachCanInQr(danhSachThietBi);
+    } else {
+      const thietBiDuocChon = danhSachThietBi.filter((tb) =>
+        danhSachChonId.includes(tb.id),
+      );
+      datDanhSachCanInQr(thietBiDuocChon);
+    }
+    datDangMoInQr(true);
+  }
+
+  function toggleChonTatCa() {
+    if (danhSachChonId.length === danhSachThietBi.length) {
+      datDanhSachChonId([]);
+    } else {
+      datDanhSachChonId(danhSachThietBi.map((tb) => tb.id));
+    }
+  }
+
+  function toggleChonMot(id: number) {
+    datDanhSachChonId((cu) =>
+      cu.includes(id) ? cu.filter((x) => x !== id) : [...cu, id],
+    );
   }
 
   async function doiTrangThai(trangThai: TrangThaiThietBi) {
@@ -228,10 +267,24 @@ export default function TrangThietBi() {
   }
 
   const dangLoc = Boolean(tuKhoaTimKiem || loaiDangLoc || trangThaiDangLoc);
+  const tatCaDaChon =
+    danhSachThietBi.length > 0 &&
+    danhSachChonId.length === danhSachThietBi.length;
 
   return (
     <>
-      <section className="thanh-cong-cu">
+      <section className="thanh-cong-cu phan-khong-in" style={{ justifyContent: "space-between", flexWrap: "wrap", gap: "10px" }}>
+        <div className="cum-nut">
+          <button
+            className="nut nut-phu"
+            style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
+            onClick={inQrHangsLoat}
+            disabled={danhSachThietBi.length === 0}
+          >
+            🖨️ In mã QR {danhSachChonId.length > 0 ? `(${danhSachChonId.length} máy đã chọn)` : "trang này"}
+          </button>
+        </div>
+
         <div className="cum-nut">
           <button className="nut nut-phu" onClick={() => datDangMoLoai(true)}>
             Thêm loại
@@ -242,9 +295,9 @@ export default function TrangThietBi() {
         </div>
       </section>
 
-      {thongBao && <div className="thong-bao thanh-cong">{thongBao}</div>}
+      {thongBao && <div className="thong-bao thanh-cong phan-khong-in">{thongBao}</div>}
 
-      <section className="the-noi-dung">
+      <section className="the-noi-dung phan-khong-in">
         <div className="bo-loc">
           <div className="o-tim-kiem">
             <span aria-hidden="true">⌕</span>
@@ -329,55 +382,96 @@ export default function TrangThietBi() {
             <table>
               <thead>
                 <tr>
+                  <th style={{ width: "38px", textAlign: "center" }}>
+                    <input
+                      type="checkbox"
+                      checked={tatCaDaChon}
+                      onChange={toggleChonTatCa}
+                      title="Chọn tất cả máy trên trang này"
+                      aria-label="Chọn tất cả"
+                    />
+                  </th>
                   <th>Mã thiết bị</th>
                   <th>Tên thiết bị</th>
                   <th>Loại</th>
-                  <th>Model</th>
+                  <th>Model &amp; Serial</th>
                   <th>Trạng thái</th>
                   <th>Vị trí</th>
-                  <th aria-label="Thao tác" />
+                  <th style={{ textAlign: "right" }}>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                {danhSachThietBi.map((thietBi) => (
-                  <tr
-                    key={thietBi.id}
-                    className="dong-co-the-chon"
-                    onClick={() => void moChiTiet(thietBi.id)}
-                  >
-                    <td>
-                      <strong>{thietBi.maThietBi}</strong>
-                    </td>
-                    <td>{thietBi.tenThietBi}</td>
-                    <td>
-                      {thietBi.loaiThietBi?.tenLoai ||
-                        danhSachLoai.find(
-                          (loai) => loai.id === thietBi.loaiThietBiId,
-                        )?.tenLoai ||
-                        "—"}
-                    </td>
-                    <td>{thietBi.model || "—"}</td>
-                    <td>
-                      <span className="huy-hieu">
-                        {NHAN_TRANG_THAI_THIET_BI[thietBi.trangThai] ||
-                          thietBi.trangThai}
-                      </span>
-                    </td>
-                    <td>{thietBi.viTri?.tenViTri || "—"}</td>
-                    <td>
-                      <button
-                        className="nut-hanh-dong"
-                        onClick={(suKien) => {
-                          suKien.stopPropagation();
-                          void moChiTiet(thietBi.id);
-                        }}
-                        aria-label={`Xem ${thietBi.tenThietBi}`}
+                {danhSachThietBi.map((thietBi) => {
+                  const daChon = danhSachChonId.includes(thietBi.id);
+                  return (
+                    <tr
+                      key={thietBi.id}
+                      className="dong-co-the-chon"
+                      style={{ background: daChon ? "#f0fdfa" : undefined }}
+                      onClick={() => void moChiTiet(thietBi.id)}
+                    >
+                      <td
+                        style={{ textAlign: "center" }}
+                        onClick={(e) => e.stopPropagation()}
                       >
-                        •••
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                        <input
+                          type="checkbox"
+                          checked={daChon}
+                          onChange={() => toggleChonMot(thietBi.id)}
+                          aria-label={`Chọn ${thietBi.tenThietBi}`}
+                        />
+                      </td>
+                      <td>
+                        <strong>{thietBi.maThietBi}</strong>
+                      </td>
+                      <td>
+                        <strong>{thietBi.tenThietBi}</strong>
+                      </td>
+                      <td>
+                        {thietBi.loaiThietBi?.tenLoai ||
+                          danhSachLoai.find(
+                            (loai) => loai.id === thietBi.loaiThietBiId,
+                          )?.tenLoai ||
+                          "—"}
+                      </td>
+                      <td>
+                        <div>{thietBi.model || "—"}</div>
+                        {thietBi.soSerial && (
+                          <div style={{ fontSize: "11px", color: "#64748b" }}>
+                            SN: <code>{thietBi.soSerial}</code>
+                          </div>
+                        )}
+                      </td>
+                      <td>
+                        <span className="huy-hieu">
+                          {NHAN_TRANG_THAI_THIET_BI[thietBi.trangThai] ||
+                            thietBi.trangThai}
+                        </span>
+                      </td>
+                      <td>{thietBi.viTri?.tenViTri || "—"}</td>
+                      <td style={{ textAlign: "right" }} onClick={(e) => e.stopPropagation()}>
+                        <div style={{ display: "inline-flex", gap: "6px" }}>
+                          <button
+                            className="nut nut-phu"
+                            style={{ minHeight: "30px", padding: "0 8px", fontSize: "11px", display: "inline-flex", alignItems: "center", gap: "4px" }}
+                            onClick={() => inQrDonLe(thietBi)}
+                            title="In tem nhãn mã QR"
+                          >
+                            🖨️ In QR
+                          </button>
+                          <button
+                            className="nut-hanh-dong"
+                            onClick={() => void moChiTiet(thietBi.id)}
+                            aria-label={`Xem ${thietBi.tenThietBi}`}
+                            title="Xem chi tiết"
+                          >
+                            •••
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -417,6 +511,40 @@ export default function TrangThietBi() {
         )}
       </section>
 
+      {/* Thanh tác vụ nổi khi chọn nhiều thiết bị */}
+      {danhSachChonId.length > 0 && (
+        <div className="thanh-tac-vu-noi phan-khong-in">
+          <div>
+            <strong>✓ Đã chọn {danhSachChonId.length} thiết bị</strong>
+          </div>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <button
+              type="button"
+              className="nut nut-phu"
+              style={{ minHeight: "36px", fontSize: "13px" }}
+              onClick={() => datDanhSachChonId([])}
+            >
+              Bỏ chọn tất cả
+            </button>
+            <button
+              type="button"
+              className="nut nut-chinh"
+              style={{ minHeight: "36px", fontSize: "13px", display: "inline-flex", alignItems: "center", gap: "6px" }}
+              onClick={inQrHangsLoat}
+            >
+              🖨️ In mã QR hàng loạt ({danhSachChonId.length} máy)
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Modal in mã QR (Đơn lẻ & Hàng loạt) */}
+      <InMaQr
+        dangMo={dangMoInQr}
+        dong={() => datDangMoInQr(false)}
+        danhSachThietBi={danhSachCanInQr}
+      />
+
       <ThemThietBi
         dangMo={dangMoThem}
         dong={() => datDangMoThem(false)}
@@ -443,7 +571,7 @@ export default function TrangThietBi() {
       />
 
       {dangTaiChiTiet && (
-        <div className="lop-phu">
+        <div className="lop-phu phan-khong-in">
           <section className="hop-thoai">
             <div className="trang-thai-du-lieu">
               <span className="vong-xoay" />
@@ -454,7 +582,7 @@ export default function TrangThietBi() {
       )}
 
       {!dangTaiChiTiet && thietBiDangChon && (
-        <div className="lop-phu">
+        <div className="lop-phu phan-khong-in">
           <section className="hop-thoai hop-thoai-chi-tiet">
             <header className="dau-hop-thoai">
               <h2>{thietBiDangChon.tenThietBi}</h2>
@@ -494,6 +622,14 @@ export default function TrangThietBi() {
                   <dd>{thietBiDangChon.viTri?.tenViTri || "—"}</dd>
                 </div>
                 <div>
+                  <dt>Lô nhập</dt>
+                  <dd>
+                    {thietBiDangChon.loNhap?.maLo ||
+                      danhSachLoNhap.find((lo) => lo.id === thietBiDangChon.loNhapId)?.maLo ||
+                      "—"}
+                  </dd>
+                </div>
+                <div>
                   <dt>Giá mua</dt>
                   <dd>
                     {thietBiDangChon.giaMua == null
@@ -513,22 +649,32 @@ export default function TrangThietBi() {
               </dl>
 
               {qr && (
-                <div className="thong-bao thanh-cong">
+                <div className="thong-bao thanh-cong" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                   {qr.anhQr && (
                     <Image
                       src={qr.anhQr}
                       alt={`Mã QR của ${thietBiDangChon.tenThietBi}`}
-                      width={180}
-                      height={180}
+                      width={140}
+                      height={140}
                       unoptimized
                     />
                   )}
-                  <div>{qr.noiDungQr || qr.maQr || "QR chưa có dữ liệu."}</div>
+                  <div>
+                    <strong style={{ fontSize: "15px", display: "block" }}>{qr.noiDungQr || qr.maQr}</strong>
+                    <span style={{ fontSize: "12px", color: "#64748b" }}>Mã QR quét trên ứng dụng di động</span>
+                  </div>
                 </div>
               )}
               {loiChiTiet && <div className="thong-bao loi">{loiChiTiet}</div>}
 
               <footer className="chan-chi-tiet">
+                <button
+                  className="nut nut-chinh"
+                  style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
+                  onClick={() => inQrDonLe(thietBiDangChon)}
+                >
+                  🖨️ In nhãn QR
+                </button>
                 <button className="nut nut-phu" onClick={moSua}>
                   Sửa
                 </button>
@@ -560,7 +706,7 @@ export default function TrangThietBi() {
       )}
 
       {dangSua && thietBiDangChon && (
-        <div className="lop-phu lop-phu-xac-nhan">
+        <div className="lop-phu lop-phu-xac-nhan phan-khong-in">
           <section className="hop-thoai">
             <header className="dau-hop-thoai">
               <h2>Sửa thiết bị</h2>

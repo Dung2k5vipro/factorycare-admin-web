@@ -1,10 +1,12 @@
 export type MucDoSuCo = "THAP" | "TRUNG_BINH" | "CAO" | "NGHIEM_TRONG";
-export type TrangThaiSuCo = "MOI" | "DA_PHAN_CONG" | "DANG_XU_LY" | "DA_XU_LY" | "DA_HUY";
+export type TrangThaiSuCo = "MOI" | "DA_PHAN_CONG" | "DANG_XU_LY" | "CHO_LINH_KIEN" | "DA_XU_LY" | "DA_HUY";
 export type KetQuaSuaChua = "DA_SUA_XONG" | "SUA_MOT_PHAN" | "KHONG_SUA_DUOC";
 
 export interface LinhKienThayThe {
-  ten: string;
+  tenLinhKien: string;
   soLuong: number;
+  donVi?: string | null;
+  ghiChu?: string | null;
 }
 
 export interface HoSoSuaChua {
@@ -18,6 +20,8 @@ export interface HoSoSuaChua {
   thoiGianBatDau: string | null;
   thoiGianHoanThanh: string | null;
   ghiChu: string | null;
+  hinhAnhSuaChua?: string[] | string | null;
+  hinhAnh?: string[] | string | null;
 }
 
 export interface KyThuatVienSuCo {
@@ -46,10 +50,12 @@ export interface SuCo {
   thoiGianBao: string;
   thoiGianPhanCong?: string | null;
   moTa?: string;
-  hinhAnh?: string[];
+  hinhAnh?: string[] | string | null;
+  hinhAnhSuaChua?: string[] | string | null;
   thoiGianXayRa?: string | null;
   thoiGianHoanThanh?: string | null;
   danhSachHoSoSuaChua?: HoSoSuaChua[];
+  hoSoSuaChua?: HoSoSuaChua | HoSoSuaChua[] | null;
 }
 
 export interface PhanTrangSuCo {

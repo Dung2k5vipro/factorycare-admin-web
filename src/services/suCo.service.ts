@@ -4,7 +4,7 @@ import type { BoLocSuCo, KetQuaDanhSachKyThuatVien, KetQuaDanhSachSuCo, SuCo } f
 import { kiemTraNgay } from "@/utils/dinhDangSuCo";
 
 const DANH_SACH_MUC_DO = ["THAP", "TRUNG_BINH", "CAO", "NGHIEM_TRONG"];
-const DANH_SACH_TRANG_THAI = ["MOI", "DA_PHAN_CONG", "DANG_XU_LY", "DA_XU_LY", "DA_HUY"];
+const DANH_SACH_TRANG_THAI = ["MOI", "DA_PHAN_CONG", "DANG_XU_LY", "CHO_LINH_KIEN", "DA_XU_LY", "DA_HUY"];
 
 export function kiemTraIdSuCo(id: unknown): id is number {
   return typeof id === "number" && Number.isSafeInteger(id) && id > 0;
@@ -59,3 +59,11 @@ export function phanCongKyThuatVien(suCoId: number, kyThuatVienId: number) {
     body: JSON.stringify({ kyThuatVienId }),
   });
 }
+
+export function layHoSoSuaChua(suCoId: number) {
+  if (!kiemTraIdSuCo(suCoId)) throw new LoiHttp(0, "Mã sự cố không hợp lệ.");
+  return guiYeuCau<{ danhSach: import("@/types/suCo").HoSoSuaChua[] } | import("@/types/suCo").HoSoSuaChua[] | import("@/types/suCo").HoSoSuaChua>(
+    `/su-co/${suCoId}/ho-so-sua-chua`
+  );
+}
+

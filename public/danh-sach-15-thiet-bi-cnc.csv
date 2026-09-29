@@ -1,0 +1,16 @@
+﻿tenThietBi,tenLoai,soSerial,model,hangSanXuat,tenViTri,maLo,trangThai,giaMua,ngayBatDauBaoHanh,ngayHetBaoHanh,moTa
+Máy tiện CNC 2 trục Haas ST-10,CNC,CNC-HAAS-ST10-01,ST-10,Haas Automation,Xưởng Lắp ráp,,DANG_HOAT_DONG,280000000,2026-01-01,2028-01-01,Máy tiện CNC cỡ nhỏ tốc độ cao
+Máy tiện CNC Doosan Lynx 2100,CNC,CNC-DOO-LX21-02,Lynx 2100LB,Doosan Machine Tools,Dây chuyền CNC 01,,DANG_HOAT_DONG,350000000,2026-01-10,2028-01-10,Máy tiện gia công chi tiết cơ khí chính xác
+Máy phay CNC đứng 3 trục Mazak VCN-530C,CNC,CNC-MAZ-530-03,VCN-530C,Yamazaki Mazak,Dây chuyền CNC 01,,DANG_HOAT_DONG,520000000,2026-01-15,2028-01-15,Trung tâm gia công đứng hiệu suất cao
+Máy phay CNC 4 trục DMG Mori NVX 5080,CNC,CNC-DMG-5080-04,NVX 5080 II,DMG MORI,Dây chuyền CNC 02,,DANG_HOAT_DONG,680000000,2026-02-01,2028-02-01,Máy phay gia công bề mặt phức tạp 4 trục
+Máy phay CNC 5 trục Haas VF-4SS,CNC,CNC-HAAS-VF4-05,VF-4SS,Haas Automation,Ô máy CNC-02-A,,DANG_HOAT_DONG,850000000,2026-02-15,2029-02-15,Máy phay trung tâm 5 trục đồng thời
+Máy tiện CNC đùn phôi Citizen Cincom L20,CNC,CNC-CIT-L20-06,Cincom L20-VIII,Citizen Machinery,Dây chuyền CNC 02,,DANG_HOAT_DONG,620000000,2026-03-01,2028-03-01,Máy tiện tự động Swiss Type cho linh kiện nhỏ
+Trung tâm gia công ngang Okuma MB-5000H,CNC,CNC-OKU-MB50-07,MB-5000H,Okuma Corporation,Dây chuyền CNC 01,,DANG_HOAT_DONG,920000000,2026-03-10,2029-03-10,Trung tâm phay ngang tốc độ trục chính 15000 rpm
+Máy mài phẳng CNC Chevalier FSG-3A818,CNC,CNC-CHE-3A8-08,FSG-3A818,Chevalier Machinery,Xưởng Lắp ráp,,DANG_HOAT_DONG,240000000,2026-03-15,2027-03-15,Máy mài phẳng tự động độ chính xác cao
+Máy cắt dây CNC Sodick ALC600G,CNC,CNC-SOD-600G-09,ALC600G Premium,"Sodick Co., Ltd",Dây chuyền CNC 02,,DANG_HOAT_DONG,750000000,2026-04-01,2028-04-01,Máy gia công cắt dây tia lửa điện Wire EDM
+Máy xung điện EDM CNC Makino EDGE3,CNC,CNC-MAK-EDG3-10,EDGE3,Makino Milling Machine,Ô máy CNC-02-A,,DANG_HOAT_DONG,580000000,2026-04-10,2028-04-10,Máy gia công tia lửa điện chìm
+Máy cắt Laser Fiber CNC Trumpf TruLaser 1030,CNC,CNC-TRU-1030-11,TruLaser 1030 fiber,Trumpf Group,Dây chuyền Robot 01,,DANG_HOAT_DONG,1250000000,2026-04-20,2029-04-20,Máy cắt kim loại tấm bằng nguồn Laser Fiber 3kW
+Máy phay giường CNC Hartford HCMC-2182,CNC,CNC-HAR-2182-12,HCMC-2182,Hartford Machinery,Xưởng Lắp ráp,,DANG_HOAT_DONG,1450000000,2026-05-01,2029-05-01,Máy phay giường gia công chi tiết cỡ lớn
+Máy khoan phay CNC Fanuc Robodrill D21LiB5,CNC,CNC-FAN-D21-13,Robodrill α-D21LiB5,Fanuc Robotics,Dây chuyền CNC 01,,DANG_HOAT_DONG,490000000,2026-05-10,2028-05-10,Máy gia công phay taro cao tốc Fanuc
+Máy tiện CNC 2 trục chính Nakamura-Tome WT-150,CNC,CNC-NAK-WT15-14,WT-150II,Nakamura-Tome,Dây chuyền CNC 02,,DANG_HOAT_DONG,890000000,2026-05-15,2028-05-15,Máy tiện hai đài dao hai trục chính tiện phay kết hợp
+Máy mài tròn ngoài CNC Studer S33,CNC,CNC-STU-S33-15,S33 Universal,Fritz Studer AG,Xưởng Lắp ráp,,DANG_HOAT_DONG,780000000,2026-06-01,2028-06-01,Máy mài tròn vạn năng CNC cho trục truyền động

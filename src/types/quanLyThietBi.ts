@@ -75,10 +75,36 @@ export interface KetQuaDanhSach<T> {
     tongTrang: number;
   };
 }
+export interface KetQuaDongImport {
+  dong: number;
+  duLieu: {
+    tenThietBi: string;
+    loaiThietBiId?: number;
+    loaiThietBi?: { id: number; tenLoai: string } | null;
+    viTriId?: number | null;
+    viTri?: { id: number; tenViTri: string } | null;
+    loNhapId?: number | null;
+    loNhap?: { id: number; maLo: string } | null;
+    soSerial?: string | null;
+    model?: string | null;
+    hangSanXuat?: string | null;
+    anhThietBi?: string | null;
+    giaMua?: number | null;
+    ngayBatDauBaoHanh?: string | null;
+    ngayHetBaoHanh?: string | null;
+    trangThai?: string;
+    moTa?: string | null;
+    [key: string]: unknown;
+  };
+}
+
 export interface KetQuaImport {
   tongSoDong?: number;
   soDongHopLe?: number;
   soDongLoi?: number;
-  danhSachDongHopLe?: Array<{ dong: number; duLieu: Record<string, unknown> }>;
+  soDongDaImport?: number;
+  danhSachDongHopLe?: KetQuaDongImport[];
   danhSachLoi?: Array<{ dong: number; cot?: string; thongBao: string }>;
+  danhSachDaTao?: Array<{ id: number; maThietBi: string; maQr: string }>;
 }
+

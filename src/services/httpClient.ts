@@ -3,7 +3,7 @@ import { layToken, xoaPhienDangNhap } from "./phienDangNhap";
 
 const DIA_CHI_API =
   (process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL)?.replace(/\/$/, "") ??
-  "http://localhost:3000/api";
+  "http://localhost:3005/api";
 
 function layThongBaoLoi(maTrangThai: number, thongBaoMayChu?: string) {
   if (maTrangThai === 401) return "Phiên đăng nhập không hợp lệ hoặc đã hết hạn.";
