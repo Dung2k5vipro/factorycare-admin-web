@@ -10,6 +10,7 @@ export const NHAN_TRANG_THAI_SU_CO = {
   DA_PHAN_CONG: "Đã phân công",
   DANG_XU_LY: "Đang xử lý",
   CHO_LINH_KIEN: "Chờ linh kiện",
+  CHO_XAC_NHAN: "Chờ xác nhận",
   DA_XU_LY: "Đã xử lý",
   DA_HUY: "Đã hủy",
 };

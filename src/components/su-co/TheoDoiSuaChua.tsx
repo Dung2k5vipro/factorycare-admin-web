@@ -138,7 +138,7 @@ export default function TheoDoiSuaChua({ suCo }: { suCo: SuCo }) {
     layTatCaAnhHoSo(suCo),
     suCo.thoiGianHoanThanh
   );
-  const laDaHoanThanh = suCo.trangThai === "DA_XU_LY";
+  const laDaHoanThanh = suCo.trangThai === "DA_XU_LY" || suCo.trangThai === "CHO_XAC_NHAN";
 
   return (
     <>

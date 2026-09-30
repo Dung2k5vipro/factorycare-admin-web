@@ -407,7 +407,7 @@ export default function TrangThietBi() {
                       aria-label="Chọn tất cả"
                     />
                   </th>
-                  <th>Mã thiết bị</th>
+                  <th style={{ width: "60px", textAlign: "center" }}>STT</th>
                   <th>Tên thiết bị</th>
                   <th>Loại</th>
                   <th>Model &amp; Serial</th>
@@ -417,8 +417,9 @@ export default function TrangThietBi() {
                 </tr>
               </thead>
               <tbody>
-                {danhSachThietBi.map((thietBi) => {
+                {danhSachThietBi.map((thietBi, chiSo) => {
                   const daChon = danhSachChonId.includes(thietBi.id);
+                  const stt = (trangHienTai - 1) * SO_BAN_GHI_MOI_TRANG + chiSo + 1;
                   return (
                     <tr
                       key={thietBi.id}
@@ -437,8 +438,8 @@ export default function TrangThietBi() {
                           aria-label={`Chọn ${thietBi.tenThietBi}`}
                         />
                       </td>
-                      <td>
-                        <strong>{thietBi.maThietBi}</strong>
+                      <td style={{ textAlign: "center", color: "#64748b", fontWeight: 600 }}>
+                        {stt}
                       </td>
                       <td>
                         <strong>{thietBi.tenThietBi}</strong>

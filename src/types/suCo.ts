@@ -1,5 +1,5 @@
 export type MucDoSuCo = "THAP" | "TRUNG_BINH" | "CAO" | "NGHIEM_TRONG";
-export type TrangThaiSuCo = "MOI" | "DA_PHAN_CONG" | "DANG_XU_LY" | "CHO_LINH_KIEN" | "DA_XU_LY" | "DA_HUY";
+export type TrangThaiSuCo = "MOI" | "DA_PHAN_CONG" | "DANG_XU_LY" | "CHO_LINH_KIEN" | "CHO_XAC_NHAN" | "DA_XU_LY" | "DA_HUY";
 export type KetQuaSuaChua = "DA_SUA_XONG" | "SUA_MOT_PHAN" | "KHONG_SUA_DUOC";
 
 export interface LinhKienThayThe {
