@@ -140,6 +140,11 @@ tbody tr:hover { background: #f8fbfb; }
 .ten-nguoi-dung strong { color: #1e293b; }
 .avatar-bang { width: 32px; height: 32px; background: #e0f2fe; color: #0369a1; }
 .huy-hieu { display: inline-block; padding: 5px 9px; border-radius: 6px; background: #f1f5f9; color: #475569; font-size: 11px; font-weight: 700; }
+.thiet-bi-dang-hoat-dong { border: 1px solid #bbf7d0; color: #166534; background: #dcfce7; }
+.thiet-bi-dang-bao-tri { border: 1px solid #fde68a; color: #92400e; background: #fef3c7; }
+.thiet-bi-dang-hong { border: 1px solid #fecaca; color: #b91c1c; background: #fee2e2; }
+.thiet-bi-ngung-hoat-dong { border: 1px solid #cbd5e1; color: #475569; background: #e2e8f0; }
+.thiet-bi-thanh-ly { border: 1px solid #ddd6fe; color: #6d28d9; background: #ede9fe; }
 .vai-tro-quan_tri_vien { background: #ede9fe; color: #6d28d9; }
 .vai-tro-ky_thuat_vien { background: #e0f2fe; color: #0369a1; }
 .trang-thai { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; }
@@ -710,14 +715,21 @@ tbody tr:hover { background: #f8fbfb; }
 .bao-tri-cho-thuc-hien { color: #854d0e; background: #fef9c3; }
 .bao-tri-dang-thuc-hien { color: #075985; background: #e0f2fe; }
 .bao-tri-qua-han { color: #be123c; background: #ffe4e6; }
-.the-canh-bao-bao-tri { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 18px; padding: 17px 20px; border: 1px solid #fed7aa; border-radius: 12px; background: #fff7ed; }
-.the-canh-bao-bao-tri > div:first-child strong, .the-canh-bao-bao-tri > div:first-child span { display: block; }
-.the-canh-bao-bao-tri > div:first-child strong { color: #9a3412; }
-.the-canh-bao-bao-tri > div:first-child span { margin-top: 4px; color: #c2410c; font-size: 12px; }
-.danh-sach-canh-bao-ngan { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
-.danh-sach-canh-bao-ngan button { padding: 8px 11px; border: 1px solid #fed7aa; border-radius: 8px; color: #7c2d12; background: white; }
-.danh-sach-canh-bao-ngan button strong, .danh-sach-canh-bao-ngan button span { display: block; font-size: 11px; }
-.danh-sach-canh-bao-ngan button span { margin-top: 2px; color: #9a3412; }
+.the-canh-bao-bao-tri { display: flex; align-items: center; justify-content: space-between; gap: 22px; margin-bottom: 18px; padding: 17px 20px; border: 1px solid #fed7aa; border-radius: 12px; background: #fff7ed; }
+.noi-dung-canh-bao-bao-tri { min-width: 210px; }
+.noi-dung-canh-bao-bao-tri strong, .noi-dung-canh-bao-bao-tri span { display: block; }
+.noi-dung-canh-bao-bao-tri strong { color: #9a3412; }
+.noi-dung-canh-bao-bao-tri span { margin-top: 4px; color: #c2410c; font-size: 12px; }
+.danh-sach-canh-bao-ngan { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.danh-sach-canh-bao-ngan button { width: 168px; padding: 9px 11px; overflow: hidden; border: 1px solid #fed7aa; border-radius: 8px; color: #7c2d12; background: white; text-align: left; cursor: pointer; transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.danh-sach-canh-bao-ngan button:hover { border-color: #fb923c; box-shadow: 0 4px 12px #9a341214; transform: translateY(-1px); }
+.danh-sach-canh-bao-ngan button:focus-visible { border-color: #ea580c; box-shadow: 0 0 0 3px #fb923c33; outline: none; }
+.danh-sach-canh-bao-ngan button strong, .danh-sach-canh-bao-ngan button span, .danh-sach-canh-bao-ngan button time { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.danh-sach-canh-bao-ngan button strong { font-size: 12px; }
+.danh-sach-canh-bao-ngan button span, .danh-sach-canh-bao-ngan button time { margin-top: 3px; font-size: 11px; }
+.ma-thiet-bi-canh-bao { color: #9a3412; }
+.danh-sach-canh-bao-ngan button time { color: #c2410c; }
+.so-luong-canh-bao-con-lai { color: #9a3412; font-size: 11px; font-weight: 700; white-space: nowrap; }
 .hop-thoai-rong { width: min(880px, 100%); }
 .hop-thoai-phieu { width: min(980px, 100%); }
 .hop-thoai-checklist { width: min(760px, 100%); }
@@ -843,7 +855,8 @@ tbody tr:hover { background: #f8fbfb; }
   .loc-khoang-ngay { grid-column: auto; grid-template-columns: 1fr 1fr; }
   .loc-khoang-ngay .nut { grid-column: 1 / -1; }
   .the-canh-bao-bao-tri { align-items: flex-start; flex-direction: column; }
-  .danh-sach-canh-bao-ngan { justify-content: flex-start; }
+  .danh-sach-canh-bao-ngan { width: 100%; justify-content: flex-start; }
+  .danh-sach-canh-bao-ngan button { flex: 1 1 160px; width: auto; }
   .hang-phan-cong, .luoi-ket-qua-bao-tri { grid-template-columns: 1fr; }
   .bo-loc-su-co { grid-template-columns: 1fr; }
   .bo-loc-ngay { grid-column: auto; }

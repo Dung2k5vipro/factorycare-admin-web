@@ -24,7 +24,9 @@ function Cay({ danhSach, chon }: CayProps) {
             <strong>{viTri.tenViTri}</strong>
             <span>{NHAN_LOAI_VI_TRI[viTri.loaiViTri]}</span>
           </button>
-          {viTri.con?.length ? <Cay danhSach={viTri.con} chon={chon} /> : null}
+          {viTri.danhSachCon?.length ? (
+            <Cay danhSach={viTri.danhSachCon} chon={chon} />
+          ) : null}
         </li>
       ))}
     </ul>
@@ -37,7 +39,7 @@ function lamPhangCay(danhSach: CayViTri[]) {
   function themNhanh(danhSachCon: CayViTri[]) {
     danhSachCon.forEach((viTri) => {
       ketQua.push(viTri);
-      if (viTri.con) themNhanh(viTri.con);
+      if (viTri.danhSachCon) themNhanh(viTri.danhSachCon);
     });
   }
 
@@ -77,7 +79,7 @@ export default function TrangViTri() {
     datViTriDangSua(viTri || null);
     datTenViTri(viTri?.tenViTri || "");
     datLoaiViTri(viTri?.loaiViTri || "NHA_MAY");
-    datViTriChaId(viTri?.viTriChaId || null);
+    datViTriChaId(viTri?.viTriCha?.id || null);
     datMoTa(viTri?.moTa || "");
     datLoiForm("");
     datDangMo(true);
@@ -93,6 +95,11 @@ export default function TrangViTri() {
 
     if (viTriDangSua?.id === viTriChaId) {
       datLoiForm("Vị trí cha không hợp lệ.");
+      return;
+    }
+
+    if (loaiViTri !== "NHA_MAY" && !viTriChaId) {
+      datLoiForm("Vui lòng chọn vị trí cha.");
       return;
     }
 
@@ -123,6 +130,20 @@ export default function TrangViTri() {
   }
 
   const danhSachPhang = lamPhangCay(danhSach);
+  const loaiViTriCha: Partial<Record<LoaiViTri, LoaiViTri>> = {
+    XUONG: "NHA_MAY",
+    DAY_CHUYEN: "XUONG",
+    KHU_VUC: "DAY_CHUYEN",
+  };
+  const danhSachIdCon = new Set(
+    viTriDangSua ? lamPhangCay(viTriDangSua.danhSachCon || []).map((viTri) => viTri.id) : [],
+  );
+  const danhSachViTriChaHopLe = danhSachPhang.filter(
+    (viTri) =>
+      viTri.loaiViTri === loaiViTriCha[loaiViTri] &&
+      viTri.id !== viTriDangSua?.id &&
+      !danhSachIdCon.has(viTri.id),
+  );
 
   return (
     <>
@@ -199,9 +220,20 @@ export default function TrangViTri() {
                 <select
                   id="loai-vi-tri"
                   value={loaiViTri}
-                  onChange={(suKien) =>
-                    datLoaiViTri(suKien.target.value as LoaiViTri)
-                  }
+                  onChange={(suKien) => {
+                    const loaiMoi = suKien.target.value as LoaiViTri;
+                    datLoaiViTri(loaiMoi);
+
+                    const viTriChaDangChon = danhSachPhang.find(
+                      (viTri) => viTri.id === viTriChaId,
+                    );
+                    if (
+                      !viTriChaDangChon ||
+                      viTriChaDangChon.loaiViTri !== loaiViTriCha[loaiMoi]
+                    ) {
+                      datViTriChaId(null);
+                    }
+                  }}
                 >
                   {DANH_SACH_LOAI_VI_TRI.map((loai) => (
                     <option key={loai} value={loai}>
@@ -216,20 +248,22 @@ export default function TrangViTri() {
                 <select
                   id="vi-tri-cha"
                   value={viTriChaId || ""}
+                  disabled={loaiViTri === "NHA_MAY"}
+                  required={loaiViTri !== "NHA_MAY"}
                   onChange={(suKien) =>
                     datViTriChaId(
                       suKien.target.value ? Number(suKien.target.value) : null,
                     )
                   }
                 >
-                  <option value="">Không có</option>
-                  {danhSachPhang
-                    .filter((viTri) => viTri.id !== viTriDangSua?.id)
-                    .map((viTri) => (
-                      <option key={viTri.id} value={viTri.id}>
-                        {viTri.tenViTri}
-                      </option>
-                    ))}
+                  <option value="">
+                    {loaiViTri === "NHA_MAY" ? "Không có" : "Chọn vị trí cha"}
+                  </option>
+                  {danhSachViTriChaHopLe.map((viTri) => (
+                    <option key={viTri.id} value={viTri.id}>
+                      {viTri.tenViTri}
+                    </option>
+                  ))}
                 </select>
               </div>
 

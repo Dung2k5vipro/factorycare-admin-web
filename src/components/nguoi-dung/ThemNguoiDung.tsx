@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { themNguoiDung } from "@/services/nguoiDung.service";
 import { LoiHttp } from "@/types/api";
 import type { DuLieuThemNguoiDung } from "@/types/nguoiDung";
+import { chiGiuChuSo } from "@/utils/duLieuNhap";
 import { docTepAnhDaiDien, kiemTraEmail, kiemTraHoTen, kiemTraSoDienThoai, kiemTraTepAnhDaiDien, kiemTraVaiTro } from "@/utils/kiemTraNguoiDung";
 
 interface ThemNguoiDungProps { dangMo: boolean; dongBieuMau: () => void; khiThemThanhCong: () => void; }
@@ -97,7 +98,7 @@ export default function ThemNguoiDung({ dangMo, dongBieuMau, khiThemThanhCong }:
             <div className="nhom-truong"><label htmlFor="ho-ten">Họ tên <em>*</em></label><input id="ho-ten" value={duLieuNguoiDung.hoTen} onChange={(suKien) => capNhatTruong("hoTen", suKien.target.value)} disabled={dangXuLy} />{loi.hoTen && <span className="loi-truong">{loi.hoTen}</span>}</div>
             <div className="nhom-truong"><label htmlFor="email-moi">Email <em>*</em></label><input id="email-moi" type="email" value={duLieuNguoiDung.email} onChange={(suKien) => capNhatTruong("email", suKien.target.value)} disabled={dangXuLy} />{loi.email && <span className="loi-truong">{loi.email}</span>}</div>
             <div className="nhom-truong"><label htmlFor="mat-khau-moi">Mật khẩu <em>*</em></label><input id="mat-khau-moi" type="password" value={duLieuNguoiDung.matKhau} onChange={(suKien) => capNhatTruong("matKhau", suKien.target.value)} autoComplete="new-password" disabled={dangXuLy} />{loi.matKhau && <span className="loi-truong">{loi.matKhau}</span>}</div>
-            <div className="nhom-truong"><label htmlFor="so-dien-thoai">Số điện thoại</label><input id="so-dien-thoai" type="tel" inputMode="numeric" maxLength={10} value={duLieuNguoiDung.soDienThoai ?? ""} onChange={(suKien) => capNhatTruong("soDienThoai", suKien.target.value)} disabled={dangXuLy} />{loi.soDienThoai && <span className="loi-truong">{loi.soDienThoai}</span>}</div>
+            <div className="nhom-truong"><label htmlFor="so-dien-thoai">Số điện thoại</label><input id="so-dien-thoai" type="tel" inputMode="numeric" pattern="[0-9]*" maxLength={10} value={duLieuNguoiDung.soDienThoai ?? ""} onChange={(suKien) => capNhatTruong("soDienThoai", chiGiuChuSo(suKien.target.value, 10))} disabled={dangXuLy} />{loi.soDienThoai && <span className="loi-truong">{loi.soDienThoai}</span>}</div>
             <div className="nhom-truong"><label htmlFor="vai-tro-moi">Vai trò <em>*</em></label><select id="vai-tro-moi" value={duLieuNguoiDung.vaiTro} onChange={(suKien) => capNhatTruong("vaiTro", suKien.target.value)} disabled={dangXuLy}><option value="NHAN_VIEN">Nhân viên</option><option value="KY_THUAT_VIEN">Kỹ thuật viên</option><option value="QUAN_TRI_VIEN">Quản trị viên</option></select>{loi.vaiTro && <span className="loi-truong">{loi.vaiTro}</span>}</div>
             <div className="nhom-truong"><label htmlFor="anh-dai-dien">Ảnh đại diện</label><input id="anh-dai-dien" type="file" accept="image/*" onChange={xuLyChonAnh} disabled={dangXuLy} />{tenTepAnh && <span className="ten-tep-anh">{tenTepAnh}</span>}{loi.anhDaiDien && <span className="loi-truong">{loi.anhDaiDien}</span>}</div>
           </div>

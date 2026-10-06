@@ -3,9 +3,13 @@ export interface CayViTri {
   id: number;
   tenViTri: string;
   loaiViTri: LoaiViTri;
-  viTriChaId?: number | null;
+  viTriCha?: {
+    id: number;
+    tenViTri: string;
+    loaiViTri: LoaiViTri;
+  } | null;
   moTa?: string | null;
-  con?: CayViTri[];
+  danhSachCon?: CayViTri[];
 }
 export interface NhaCungCap {
   id: number;

@@ -9,6 +9,7 @@ import type {
   LoNhap,
   ViTri,
 } from "@/types/thietBi";
+import { chiGiuChuSo } from "@/utils/duLieuNhap";
 import {
   DANH_SACH_TRANG_THAI_THIET_BI,
   NHAN_TRANG_THAI_THIET_BI,
@@ -237,7 +238,7 @@ export default function ThemThietBi({
                 pattern="[0-9]*"
                 value={duLieu.giaMua ?? ""}
                 onChange={(suKien) =>
-                  capNhat("giaMua", suKien.target.value.replace(/\D/g, ""))
+                  capNhat("giaMua", chiGiuChuSo(suKien.target.value))
                 }
               />
               {loi.giaMua && <span className="loi-truong">{loi.giaMua}</span>}

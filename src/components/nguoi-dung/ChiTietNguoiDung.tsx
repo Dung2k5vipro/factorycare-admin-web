@@ -8,6 +8,7 @@ import {
   layChiTietNguoiDung,
 } from "@/services/nguoiDung.service";
 import { LoiHttp } from "@/types/api";
+import { chiGiuChuSo } from "@/utils/duLieuNhap";
 import { docTepAnhDaiDien, kiemTraTepAnhDaiDien } from "@/utils/kiemTraNguoiDung";
 import type {
   DuLieuCapNhatNguoiDung,
@@ -304,7 +305,7 @@ export default function ChiTietNguoiDung({
               </div>
               <div className="nhom-truong">
                 <label htmlFor="so-dien-thoai-sua">Số điện thoại</label>
-                <input id="so-dien-thoai-sua" type="tel" inputMode="numeric" maxLength={10} value={duLieuChinhSua.soDienThoai ?? ""} onChange={(suKien) => capNhatTruong("soDienThoai", suKien.target.value)} disabled={dangXuLy} />
+                <input id="so-dien-thoai-sua" type="tel" inputMode="numeric" pattern="[0-9]*" maxLength={10} value={duLieuChinhSua.soDienThoai ?? ""} onChange={(suKien) => capNhatTruong("soDienThoai", chiGiuChuSo(suKien.target.value, 10))} disabled={dangXuLy} />
                 {loi.soDienThoai && <span className="loi-truong">{loi.soDienThoai}</span>}
               </div>
               <div className="nhom-truong">

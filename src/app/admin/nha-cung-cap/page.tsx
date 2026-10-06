@@ -8,6 +8,7 @@ import {
 } from "@/services/nhaCungCap.service";
 import type { DuLieuNhaCungCap, NhaCungCap } from "@/types/quanLyThietBi";
 import { LoiHttp } from "@/types/api";
+import { chiGiuChuSo } from "@/utils/duLieuNhap";
 import {
   kiemTraEmailKhongBatBuoc,
   kiemTraSoDienThoai,
@@ -266,7 +267,7 @@ export default function TrangNhaCungCap() {
                     inputMode="numeric"
                     pattern="[0-9]*"
                     onChange={(e) =>
-                      capNhat("soDienThoai", e.target.value.replace(/\D/g, ""))
+                      capNhat("soDienThoai", chiGiuChuSo(e.target.value, 10))
                     }
                   />
                   {loiForm.soDienThoai && (

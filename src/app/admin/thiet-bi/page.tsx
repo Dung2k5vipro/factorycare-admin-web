@@ -16,6 +16,7 @@ import {
   layQrThietBi,
 } from "@/services/thietBi.service";
 import type { LoiHttp } from "@/types/api";
+import { chiGiuChuSo } from "@/utils/duLieuNhap";
 import type {
   DuLieuThemThietBi,
   LoaiThietBi,
@@ -32,6 +33,14 @@ import {
 } from "@/utils/kiemTraThietBi";
 
 const SO_BAN_GHI_MOI_TRANG = 10;
+
+const LOP_MAU_TRANG_THAI_THIET_BI: Record<TrangThaiThietBi, string> = {
+  DANG_HOAT_DONG: "thiet-bi-dang-hoat-dong",
+  DANG_BAO_TRI: "thiet-bi-dang-bao-tri",
+  DANG_HONG: "thiet-bi-dang-hong",
+  NGUNG_HOAT_DONG: "thiet-bi-ngung-hoat-dong",
+  THANH_LY: "thiet-bi-thanh-ly",
+};
 
 function dinhDangNgay(ngay?: string | null) {
   return ngay ? new Intl.DateTimeFormat("vi-VN").format(new Date(ngay)) : "—";
@@ -460,7 +469,9 @@ export default function TrangThietBi() {
                         )}
                       </td>
                       <td>
-                        <span className="huy-hieu">
+                        <span
+                          className={`huy-hieu ${LOP_MAU_TRANG_THAI_THIET_BI[thietBi.trangThai]}`}
+                        >
                           {NHAN_TRANG_THAI_THIET_BI[thietBi.trangThai] ||
                             thietBi.trangThai}
                         </span>
@@ -780,14 +791,15 @@ export default function TrangThietBi() {
                 <label htmlFor="gia-mua-sua">Giá mua</label>
                 <input
                   id="gia-mua-sua"
-                  type="number"
-                  min="0"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   value={duLieuSua.giaMua ?? ""}
                   onChange={(suKien) =>
                     datDuLieuSua((duLieu) => ({
                       ...duLieu,
-                      giaMua: suKien.target.value
-                        ? Number(suKien.target.value)
+                      giaMua: chiGiuChuSo(suKien.target.value)
+                        ? Number(chiGiuChuSo(suKien.target.value))
                         : null,
                     }))
                   }

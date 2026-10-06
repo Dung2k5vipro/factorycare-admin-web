@@ -6,6 +6,7 @@ import BieuDoDuong from "@/components/dashboard/BieuDoDuong";
 import DanhSachCanChuY from "@/components/dashboard/DanhSachCanChuY";
 import TheKpi from "@/components/dashboard/TheKpi";
 import { layDashboardTongQuan } from "@/services/dashboardBaoCao.service";
+import { chiGiuChuSo } from "@/utils/duLieuNhap";
 import type {
   DuLieuDashboardTongQuan,
   KhoangThoiGianDashboard,
@@ -124,7 +125,7 @@ export default function TrangDashboard() {
         </>}
         <label>
           Cảnh báo trước
-          <span className="o-co-don-vi"><input type="number" min="1" max="90" value={soNgayCanhBao} onChange={(suKien) => { datSoNgayCanhBao(suKien.target.value); datLoiBoLoc(""); }} /><i>ngày</i></span>
+          <span className="o-co-don-vi"><input type="text" inputMode="numeric" pattern="[0-9]*" maxLength={2} value={soNgayCanhBao} onChange={(suKien) => { datSoNgayCanhBao(chiGiuChuSo(suKien.target.value, 2)); datLoiBoLoc(""); }} /><i>ngày</i></span>
         </label>
         <button className="nut nut-chinh" type="submit" disabled={dangTai}>Áp dụng</button>
         <button className="nut nut-phu" type="button" onClick={xuLyTaiLaiDuLieu} disabled={dangTai}>Làm mới</button>

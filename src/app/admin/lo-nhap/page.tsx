@@ -9,6 +9,7 @@ import {
 } from "@/services/loNhap.service";
 import type { DuLieuLoNhap, LoNhap, NhaCungCap } from "@/types/quanLyThietBi";
 import { LoiHttp } from "@/types/api";
+import { chiGiuChuSo } from "@/utils/duLieuNhap";
 const DU_LIEU_BAN_DAU: DuLieuLoNhap = {
   maLo: "",
   nhaCungCapId: null,
@@ -309,14 +310,15 @@ export default function TrangLoNhap() {
                 <div className="nhom-truong">
                   <label>Tổng giá trị</label>
                   <input
-                    type="number"
-                    min="0"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     value={duLieu.tongGiaTri ?? ""}
                     onChange={(e) =>
                       datDuLieu((cu) => ({
                         ...cu,
-                        tongGiaTri: e.target.value
-                          ? Number(e.target.value)
+                        tongGiaTri: chiGiuChuSo(e.target.value)
+                          ? Number(chiGiuChuSo(e.target.value))
                           : null,
                       }))
                     }
